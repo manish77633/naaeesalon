@@ -15,5 +15,5 @@ export const salon = clientKey === 'uplooks' ? {
   name: 'NAAEE SALON', phone: '+91 91664 89227', phoneTel: '+919166489227',
   address: 'Sector 150, C-2, Shipra Path, Mansarovar, Jaipur, Rajasthan 302020',
   hours: 'Daily · 9:00 AM – 9:00 PM', rating: '4.9', reviews: '141+',
-  logo: '/images/salon-warm.jpg', category: 'Beauty Salon · Nail Salon · Hairdresser',
+  logo: null, category: 'Beauty Salon · Nail Salon · Hairdresser',
 };

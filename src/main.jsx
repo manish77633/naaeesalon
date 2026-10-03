@@ -13,7 +13,7 @@ const detailLinks = serviceCards.map(item => [item.title, item.href]);
 
 function Logo({ inverse = false }) {
   return <Link className={`logo ${inverse ? 'logo-inverse' : ''}`} to="/" aria-label={`${SALON_NAME} home`}>
-    <img src={salon.logo} alt={`${SALON_NAME} logo`} />
+    {salon.logo ? <img src={salon.logo} alt={`${SALON_NAME} logo`} /> : <span className="text-logo" aria-label={`${SALON_NAME} logo`}>NAAEE<small>SALON</small></span>}
   </Link>;
 }
 
@@ -199,7 +199,7 @@ function Contact() {
         <div className="contact-line"><Clock3/><div><strong>Opening Hours</strong><p>{HOURS}</p></div></div>
         <div className="contact-buttons"><a className="button button-outline" href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={15}/></a><a className="button button-outline" href={`tel:${PHONE_TEL}`}>Call Now <Phone size={15}/></a><Button to="/booking">Book Appointment</Button></div>
       </div>
-      <div className="map-embed"><iframe title={`Map showing ${SALON_NAME} in Mansarovar, Jaipur`} src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&amp;z=16&amp;output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /><a href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Open directions in Google Maps <ArrowUpRight size={15}/></a></div>
+      <div className="map-embed"><iframe title={`Map showing ${SALON_NAME} in Mansarovar, Jaipur`} src={`https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /><a href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Open directions in Google Maps <ArrowUpRight size={15}/></a></div>
     </section>
   </>;
 }

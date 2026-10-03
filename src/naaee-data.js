@@ -1,3 +1,5 @@
+import { galleryItems as existingGalleryItems } from './data';
+
 export const image = (name) => `/images/${name.includes('.') ? name : `${name}.jpg`}`;
 
 export const serviceCards = [
@@ -28,11 +30,5 @@ export const servicePages = {
   ], 'beauty-01'),
 };
 
-export const galleryItems = [
-  { image: 'beauty-01.jpg', category: 'Beauty', alt: 'Beauty salon placeholder image' },
-  { image: 'beauty-02.jpg', category: 'Nails', alt: 'Nail salon placeholder image' },
-  { image: 'beauty-03.jpg', category: 'Beauty', alt: 'Beauty care placeholder image' },
-  { image: 'woman-02.jpg', category: 'Hair', alt: 'Hair styling placeholder image' },
-  { image: 'hair-02.jpg', category: 'Hair', alt: 'Hair services placeholder image' },
-  { image: 'makeup-02.jpg', category: 'Beauty', alt: 'Beauty services placeholder image' },
-];
+// Keep the existing project gallery intact until NAAEE-approved images are supplied.
+export const galleryItems = existingGalleryItems;
