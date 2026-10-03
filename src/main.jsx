@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, CalendarDays, Check, ChevronDown, Clock3, Heart, MapPin, Menu, Phone, Play, Scissors, ShieldCheck, Sparkles, Star, Users, X } from 'lucide-react';
-import { galleryItems, image, serviceCards, servicePages } from './data';
+import { client, salon } from './client-config';
 import './styles.css';
 
-const SALON_NAME = 'Uplooks Unisex Saloon';
-const PHONE = '+91 85295 91122';
-const PHONE_TEL = '+918529591122';
-const ADDRESS = 'Front Of Balaji Paradise, Muhana Mandi Rd, Near Kesar Nagar Chauraha, Kalyanpura, Mansarovar, Jaipur, Rajasthan 302020';
-const HOURS = 'Monday–Sunday · 9:00 AM – 10:30 PM';
+const { image, galleryItems, serviceCards, servicePages } = client;
+const { name: SALON_NAME, phone: PHONE, phoneTel: PHONE_TEL, address: ADDRESS, hours: HOURS } = salon;
 const DIRECTIONS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
 const navItems = [ ['Home', '/'], ['About', '/about'], ['Services', '/services'], ['Gallery', '/gallery'], ['Reviews', '/reviews'], ['Contact', '/contact'] ];
-const detailLinks = [ ['Hair', '/services/hair'], ['Beauty', '/services/beauty'], ['Makeup', '/services/makeup'], ['Bridal', '/services/bridal'], ["Men's Grooming", '/services/mens-grooming'], ['Hair Treatments', '/services/hair'] ];
+const detailLinks = serviceCards.map(item => [item.title, item.href]);
 
 function Logo({ inverse = false }) {
   return <Link className={`logo ${inverse ? 'logo-inverse' : ''}`} to="/" aria-label={`${SALON_NAME} home`}>
-    <img src="/images/uplooks-logo.png" alt="Uplooks Unisex Salon" />
+    <img src={salon.logo} alt={`${SALON_NAME} logo`} />
   </Link>;
 }
 
@@ -57,7 +54,7 @@ function Footer() {
     <div className="footer-brand"><Logo inverse /><p>Thoughtful beauty, hair and grooming for everyone.</p></div>
     <div className="footer-column"><strong>Explore</strong><Link to="/about">About</Link><Link to="/services">Services</Link><Link to="/gallery">Gallery</Link><Link to="/reviews">Reviews</Link></div>
     <div className="footer-column"><strong>Services</strong>{detailLinks.slice(0,5).map(([label, href]) => <Link key={label} to={href}>{label}</Link>)}</div>
-    <div className="footer-column footer-contact"><strong>Visit Uplooks</strong><span>{HOURS}</span><a href={`tel:${PHONE_TEL}`}>{PHONE}</a><span className="footer-address">{ADDRESS}</span><Link to="/contact">Contact & directions</Link><Link className="footer-book" to="/booking">Book an appointment <ArrowUpRight size={15} /></Link></div>
+    <div className="footer-column footer-contact"><strong>Visit {SALON_NAME}</strong><span>{HOURS}</span><a href={`tel:${PHONE_TEL}`}>{PHONE}</a><span className="footer-address">{ADDRESS}</span><Link to="/contact">Contact & directions</Link><Link className="footer-book" to="/booking">Book an appointment <ArrowUpRight size={15} /></Link></div>
   </div><div className="shell footer-bottom"><span>© {new Date().getFullYear()} {SALON_NAME}</span><span>Made for every version of you.</span></div></footer>;
 }
 
@@ -88,7 +85,7 @@ function EditorialSection({ photo, eyebrow, title, description, button, to = '/b
 }
 
 function GalleryPreview() {
-  return <section className="section shell"><SectionHeading label="OUR GALLERY" title="Moments at Uplooks" action="View all" actionTo="/gallery" /><div className="gallery-preview">{galleryItems.slice(0,4).map((item, i) => <Link to="/gallery" key={i}><img src={image(item.image)} alt={item.alt} style={{ objectPosition: item.position }} loading="lazy" /></Link>)}</div></section>;
+  return <section className="section shell"><SectionHeading label="OUR GALLERY" title={`Moments at ${SALON_NAME}`} action="View all" actionTo="/gallery" /><div className="gallery-preview">{galleryItems.slice(0,4).map((item, i) => <Link to="/gallery" key={i}><img src={image(item.image)} alt={item.alt} style={{ objectPosition: item.position }} loading="lazy" /></Link>)}</div></section>;
 }
 
 function CtaSection() { return <section className="cta-section"><img src={image('salon-warm')} alt="" loading="lazy" /><div className="cta-shade" /><div className="shell cta-content"><span className="eyebrow">YOUR MOMENT STARTS HERE</span><h2>Ready to feel like<br />your best self?</h2><p>Make time for a little care. We will take it from there.</p><Button to="/booking" light>Book Appointment</Button></div></section>; }
@@ -96,7 +93,7 @@ function CtaSection() { return <section className="cta-section"><img src={image(
 function Home() {
   return <>
     <section className="home-hero"><img className="home-hero-bg" src={image('salon-warm')} alt="" /><img className="home-person home-woman" src={image('woman-02')} alt="Woman with styled hair" /><img className="home-person home-man" src={image('man-01')} alt="Man with groomed hair" /><div className="home-hero-shade" /><div className="shell home-hero-content"><span className="eyebrow">PREMIUM CARE · FOR EVERY YOU</span><h1>Look Good<br />Feel Great</h1><p>Expert hair, skin, beauty and grooming<br className="desktop-only" /> services for men and women.</p><div className="hero-buttons"><Button to="/booking" light>Book Appointment</Button><Button to="/services" outline light>Explore Services</Button></div></div></section>
-    <div className="stats-strip"><div className="shell stats-inner"><div><Star size={22} /><strong>4.9</strong><span>Google Rating <sup>*</sup></span></div><div><Users size={22} /><strong>500+</strong><span>Happy Customers <sup>*</sup></span></div><div><Clock3 size={22} /><strong className="hours-stat">9 AM – 10:30 PM</strong><span>Monday–Sunday</span></div></div><small className="stats-note">* Illustrative figures. Replace with verified salon details before launch.</small></div>
+    <div className="stats-strip"><div className="shell stats-inner"><div><Star size={22} /><strong>{salon.rating}</strong><span>Rating</span></div><div><Users size={22} /><strong>{salon.reviews}</strong><span>Reviews</span></div><div><Clock3 size={22} /><strong className="hours-stat">9 AM – 9 PM</strong><span>Daily</span></div></div></div>
     <section className="section shell home-services"><div className="home-services-intro"><span className="eyebrow dark-eyebrow">OUR SERVICES</span><h2>Beauty & Grooming<br />for Everyone</h2><p>From everyday care to special occasions, our expert team is here to bring out the best in you.</p><Link className="text-link" to="/services">Explore all services <ArrowRight size={15}/></Link></div><div className="home-service-grid">{serviceCards.map(item => <ServiceCard key={item.title} item={item} compact />)}</div></section>
     <div className="shell"><EditorialSection photo="salon-warm" eyebrow="OUR BEAUTY SPACE" title="A Place for\nSelf Care" description="Step into a personalized care experience. Thoughtful service, premium products and a comfortable environment that helps you look and feel your best." button="Discover Us" to="/about" /></div>
     <GalleryPreview />
@@ -120,7 +117,7 @@ function ServiceDetail() {
 
 function Gallery() {
   const [filter, setFilter] = useState('All'); const [active, setActive] = useState(null);
-  const filters = ['All','Hair','Makeup','Bridal','Men'];
+  const filters = ['All', ...new Set(galleryItems.map(item => item.category))];
   const visible = filter === 'All' ? galleryItems : galleryItems.filter(item => item.category === filter);
   useEffect(() => { const handle = e => { if (e.key === 'Escape') setActive(null); }; window.addEventListener('keydown',handle); return () => window.removeEventListener('keydown',handle); }, []);
   return <><Hero eyebrow="OUR GALLERY" title="OUR GALLERY" subtitle="Real Moments. Real People." photo="salon-warm" variant="short-hero" /><section className="section shell"><div className="filter-row" role="group" aria-label="Gallery filters">{filters.map(name => <button key={name} className={filter===name?'selected':''} onClick={() => setFilter(name)}>{name}</button>)}</div><div className="gallery-grid">{visible.map(item => <button className="gallery-tile" key={item.image} onClick={() => setActive(item)} aria-label={`Open ${item.alt}`}><img src={image(item.image)} alt={item.alt} loading="lazy" /><span>{item.category}<ArrowUpRight size={17}/></span></button>)}</div></section>{active && <div className="lightbox" role="dialog" aria-modal="true" aria-label={active.alt} onClick={() => setActive(null)}><button aria-label="Close image" onClick={() => setActive(null)}><X/></button><img src={image(active.image)} alt={active.alt} onClick={e => e.stopPropagation()}/></div>}<CtaSection /></>;
@@ -155,7 +152,7 @@ function Booking() {
     <section className="section shell booking-layout">
       <div>
         <span className="eyebrow dark-eyebrow">LET'S GET STARTED</span>
-        <h2>Find your moment<br />at Uplooks.</h2>
+        <h2>Find your moment<br />at {SALON_NAME}.</h2>
         <p>Tell us a little about your visit. This preview saves your request on this device; live booking will be connected before launch.</p>
         <form className="booking-form" onSubmit={submit}>
           <label>Service<select name="service" value={form.service} onChange={update} required><option value="">Select Service</option>{services.map(service => <option key={service}>{service}</option>)}</select></label>
@@ -194,20 +191,20 @@ function Contact() {
     <Hero eyebrow="LET'S CONNECT" title="LET'S CONNECT" subtitle="We are here to help." photo="salon-warm" variant="short-hero" />
     <section className="section shell contact-layout">
       <div>
-        <span className="eyebrow dark-eyebrow">VISIT UPLOOKS</span>
+        <span className="eyebrow dark-eyebrow">VISIT {SALON_NAME}</span>
         <h2>Come in, unwind,<br />leave feeling you.</h2>
-        <p className="contact-category">Unisex Salon · Beauty Salon · Makeup Artist</p>
-        <div className="contact-line"><MapPin/><div><strong>Address</strong><p>Front Of Balaji Paradise,<br />Muhana Mandi Rd, Near Kesar Nagar Chauraha,<br />Kalyanpura, Mansarovar,<br />Jaipur, Rajasthan — 302020</p></div></div>
+        <p className="contact-category">{salon.category}</p>
+        <div className="contact-line"><MapPin/><div><strong>Address</strong><p>{ADDRESS}</p></div></div>
         <div className="contact-line"><Phone/><div><strong>Phone</strong><p><a href={`tel:${PHONE_TEL}`}>{PHONE}</a></p></div></div>
-        <div className="contact-line"><Clock3/><div><strong>Opening Hours</strong><p>Monday–Sunday<br />9:00 AM – 10:30 PM</p></div></div>
+        <div className="contact-line"><Clock3/><div><strong>Opening Hours</strong><p>{HOURS}</p></div></div>
         <div className="contact-buttons"><a className="button button-outline" href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Get Directions <ArrowUpRight size={15}/></a><a className="button button-outline" href={`tel:${PHONE_TEL}`}>Call Now <Phone size={15}/></a><Button to="/booking">Book Appointment</Button></div>
       </div>
-      <div className="map-embed"><iframe title="Map showing Uplooks Unisex Saloon in Mansarovar, Jaipur" src="https://maps.google.com/maps?q=26.8251463%2C75.7520371&amp;z=16&amp;output=embed" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /><a href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Open directions in Google Maps <ArrowUpRight size={15}/></a></div>
+      <div className="map-embed"><iframe title={`Map showing ${SALON_NAME} in Mansarovar, Jaipur`} src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&amp;z=16&amp;output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" /><a href={DIRECTIONS_URL} target="_blank" rel="noreferrer">Open directions in Google Maps <ArrowUpRight size={15}/></a></div>
     </section>
   </>;
 }
 
-function NotFound() { return <section className="success-wrap shell"><span className="eyebrow dark-eyebrow">PAGE NOT FOUND</span><h1>Let's get you<br />back to Uplooks.</h1><Button to="/">Back to Home</Button></section>; }
+function NotFound() { return <section className="success-wrap shell"><span className="eyebrow dark-eyebrow">PAGE NOT FOUND</span><h1>Let's get you<br />back to {SALON_NAME}.</h1><Button to="/">Back to Home</Button></section>; }
 
 function MobileActionBar() { const location = useLocation(); if (location.pathname.startsWith('/booking')) return null; return <Link className="mobile-action-bar" to="/booking"><CalendarDays size={17}/> Book Appointment <ArrowRight size={16}/></Link>; }
 
